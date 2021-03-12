@@ -3,10 +3,12 @@
 
 # Write a function that prints out a menu of commands we can perform, ie add,
 #view and quit. The function should return what the user chose.
+import json
+filename = "students.json"
 
 def menu():
-    print ('What would you like to do?\n (a) Add new student \n (v) View students\n (q) Quit')
-    choice = input('Type one letter (a/v/q): ')
+    print ('What would you like to do?\n (a) Add new student \n (v) View students\n (s) Save students\n (l) Load\n (q) Quit')
+    choice = input('Type one letter (a/v/s/l/q): ')
     return choice
 
 #Create a program that keeps displaying the
@@ -42,6 +44,21 @@ def displayModules(modules):
     for module in modules:
         print('{}  \t\t{}'.format(module['name'], module['grade']))
 
+def writeDict(obj):
+    with open(filename, 'wt') as f:
+        json.dump(obj,f)
+
+def saving(students):
+    writeDict(students)
+    print("students saved")
+
+def loading():
+    showDict = readDict()
+    print(showDict)
+
+def readDict():
+    with open(filename) as f:
+        return json.load(f)
 #main program
 students = []
 choice = menu()
@@ -51,6 +68,10 @@ while (choice != 'q'):
         adding()
     elif choice == 'v':
         viewing(students)
+    elif choice == 's':
+        saving(students)
+    elif choice == 'l':
+        loading()
     else:
         print ('Please seelect either a, v or q')
     choice = menu()
